@@ -2,7 +2,6 @@ package io.c0dr.filemanager.controller.amqp;
 
 import io.c0dr.filemanager.controller.amqp.config.AMQPHeaderNames;
 import io.c0dr.filemanager.controller.amqp.config.RequestQueueNamesConfig;
-import io.c0dr.filemanager.controller.amqp.converter.DocumentRegistrationConverter;
 import io.c0dr.filemanager.model.FileModel;
 import io.c0dr.filemanager.model.FileUploadResponse;
 import io.c0dr.filemanager.service.FileRegistrationService;
@@ -34,8 +33,6 @@ public class DocumentRegistrationController {
 
     private final FileRegistrationService registrationService;
 
-    private final DocumentRegistrationConverter documentRegistrationConverter;
-
     private final MessageValidator validator;
 
     @RabbitListener(queues = "#{@requestQueueNamesConfig.getRequestQueueNames('document-registration')}",
@@ -47,8 +44,7 @@ public class DocumentRegistrationController {
 
         validator.validateHeader(headers);
 
-        var uploadResponse = registrationService.processFileRegistration(
-                documentRegistrationConverter.toBusiness(fileModel));
+        var uploadResponse = registrationService.processFileRegistration(fileModel);
 
         return MessageBuilder.withPayload(uploadResponse)
                 .setHeader(

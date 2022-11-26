@@ -1,6 +1,6 @@
 package io.c0dr.filemanager.controller.amqp.converter;
 
-import io.c0dr.filemanager.model.FileModelBD;
+import io.c0dr.filemanager.model.FileModel;
 import io.c0dr.filemanager.model.SearchResult;
 import io.c0dr.filemanager.service.FileUrlService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ public class SearchResultConverter {
 
     private final FileUrlService urlService;
 
-    public SearchResult toExternal(FileModelBD docModel, String urlSuffix) {
+    public SearchResult toExternal(FileModel docModel, String urlSuffix) {
         return SearchResult.builder()
                 .fileId(docModel.getId())
                 .fileName(docModel.getFileName())

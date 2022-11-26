@@ -1,11 +1,10 @@
 package io.c0dr.filemanager.service;
 
-import io.c0dr.filemanager.model.FileModelBD;
+import io.c0dr.filemanager.model.FileModel;
 import io.c0dr.filemanager.model.FileUploadResponse;
 import io.c0dr.filemanager.repository.FileModelRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,7 +16,7 @@ public class FileRegistrationServiceImpl implements FileRegistrationService {
 
     private final FileUrlService fileUrlService;
 
-    public FileUploadResponse processFileRegistration(FileModelBD fileModel) {
+    public FileUploadResponse processFileRegistration(FileModel fileModel) {
         FileUploadResponse uploadResponse = new FileUploadResponse();
 
         if (fileModel != null) {

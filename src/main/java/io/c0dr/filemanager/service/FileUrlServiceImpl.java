@@ -1,7 +1,7 @@
 package io.c0dr.filemanager.service;
 
 import io.c0dr.filemanager.client.redis.RedisClient;
-import io.c0dr.filemanager.model.FileModelBD;
+import io.c0dr.filemanager.model.FileModel;
 import io.c0dr.filemanager.repository.FileModelRepository;
 import io.c0dr.filemanager.service.model.UrlFileModel;
 import lombok.RequiredArgsConstructor;
@@ -9,10 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.time.Instant;
 import java.util.UUID;
 
 @Service
@@ -31,7 +29,7 @@ public class FileUrlServiceImpl implements FileUrlService {
     }
 
     @Override
-    public void registerPublicUrlForDocument(FileModelBD document, String urlSuffix, long minutesToLive) {
+    public void registerPublicUrlForDocument(FileModel document, String urlSuffix, long minutesToLive) {
         redisClient.addUrl(urlSuffix,
                 UrlFileModel.builder().id(document.getId())
                         .originalFileName(document.getFileName())
@@ -49,7 +47,6 @@ public class FileUrlServiceImpl implements FileUrlService {
         UrlFileModel publicUrlFileModel = getPublicLocation(urlSuffix);
 
         if (null != publicUrlFileModel) {
-            this.setDownloader(publicUrlFileModel.getId(), user);
             return publicUrlFileModel;
         }
 
@@ -71,15 +68,6 @@ public class FileUrlServiceImpl implements FileUrlService {
         }
 
         return null;
-    }
-
-    @Override
-    @Transactional
-    public void setDownloader(Integer docId, String user) {
-        var fileEntity = documentRepository.getReferenceById(docId);
-        fileEntity.setDownloadedBy(user);
-        fileEntity.setDownloadedAt(Instant.now());
-        documentRepository.save(fileEntity);
     }
 
     private UrlFileModel getPublicLocation(String urlSuffix) {

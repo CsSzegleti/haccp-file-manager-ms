@@ -1,64 +1,85 @@
 package io.c0dr.filemanager.model;
 
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Map;
 
-@Builder
+@Entity
+@Table(name = "files")
 @Data
+@Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
+@TypeDefs({
+    @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
+})
 public class FileModel implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Integer id;
+
+    @Column(name = "file_name", length = 200)
     @Size(max = 200, message = "error.fileName.length")
     @NotBlank(message = "error.fileName.empty")
-    String fileName;
+    private String fileName;
 
+    @Column(name = "file_extension", length = 50)
     @Size(max = 50, message = "error.extension.length")
-    @NotBlank(message = "error.'${validatedValue}'.empty")
-    String fileExtension;
+    @NotBlank(message = "error.extension.empty")
+    private String fileExtension;
 
-    @Min(value = 0, message = "error.'${validatedValue}'.invalid")
-    @NotNull(message = "error.'${validatedValue}'.empty")
-    Long fileSize;
+    @Column(name = "file_size")
+    @Min(value = 0, message = "error.size.invalid")
+    @NotNull(message = "error.size.empty")
+    private Long fileSize;
 
-    @Size(max = 100, message = "error.'${validatedValue}'.length")
-    @NotBlank(message = "error.'${validatedValue}'.empty")
-    String documentHash;
+    @Column(name = "hash", length = 64)
+    @Size(max = 64, message = "error.hash.length")
+    @NotBlank(message = "error.hash.empty")
+    private String fileHash;
 
-    Instant uploadedAt;
+    @Column(name = "uploaded_at")
+    private Instant uploadedAt;
 
-    @Size(max = 100, message = "error.'${validatedValue}'.length")
-    String uploader;
+    @Column(name = "uploader", length = 100)
+    @Size(max = 100, message = "error.uploader.length")
+    private String uploader;
 
-    @Size(max = 39, message = "error.'${validatedValue}'.length")
-    String uploadIp;
+    @Column(name = "uploader_ip", length = 39)
+    @Size(max = 39, message = "error.ip.length")
+    private String uploadIp;
 
-    Boolean isVirusCheck;
+    @Column(name = "virus_checked")
+    private Boolean isVirusCheck;
 
-    Instant examinedAt;
+    @Column(name = "url_suffix", length = 500)
+    private String privateUrlSuffix;
 
-    Integer examinedBy;
+    @Column(name = "relative_path", length = 255)
+    @Pattern(regexp = "^((?!\\.\\.).)*$", message = "error.path.path.invalid")
+    @Size(max = 255, message = "error.path.length")
+    @NotBlank(message = "error.path.empty")
+    private String relativePath;
 
-    Boolean isApproved;
-
-    @Size(max = 100, message = "error.'${validatedValue}'.length")
-    String rejectReason;
-
-    @Pattern(regexp = "^((?!\\.\\.).)*$", message = "error.'${validatedValue}'.path.invalid")
-    @Size(max = 255, message = "error.'${validatedValue}'.length")
-    @NotBlank(message = "error.'${validatedValue}'.empty")
-    String relativePath;
-
-    Map<String, String> metaData;
-
+    @Type(type = "jsonb")
+    @Column(name = "meta_data")
+    private Map<String, String> metaData;
 }
