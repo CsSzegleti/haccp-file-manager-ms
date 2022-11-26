@@ -1,0 +1,44 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="createDocumentModelTable" author="CsSzegleti">
+        <createTable tableName="DOC_FILES">
+            <column name="DOC_ID" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="DOC_USER_ID" type="varchar(100)"/>
+            <column name="DOC_FILENAME" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DOC_FILEEXTENSION" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DOC_FILESIZE" type="int"/>
+            <column name="DOC_VERSION" type="varchar(50)"/>
+            <column name="DOC_TEMPLCODE" type="varchar(10)"/>
+            <column name="DOC_CREATED" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DOC_CREATEDBY" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DOC_DOWNLOADED" type="timestamp"/>
+            <column name="DOC_DOWNLOADEDBY" type="varchar(50)"/>
+            <column name="DOC_DOWNLOADABLE" type="boolean"/>
+            <column name="DOC_HASH" type="varchar(100)"/>
+            <column name="DOC_UPLOADED" type="timestamp"/>
+            <column name="DOC_UPLOADER" type="varchar(100)"/>
+            <column name="DOC_UPLOAD_IP" type="varchar(39)"/>
+            <column name="DOC_VIRUSCHK" type="boolean"/>
+            <column name="DOC_EXAMINED" type="timestamp"/>
+            <column name="DOC_EXAMINEDBY" type="int"/>
+            <column name="DOC_APPROVED" type="boolean"/>
+            <column name="DOC_REJECTREASON" type="varchar(100)"/>
+            <column name="DOC_URL" type="varchar(500)"/>
+            <column name="DOC_METADATA" type="clob"/>
+            <column name="DOC_RELATIVEPATH" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
