@@ -1,6 +1,6 @@
 package io.c0dr.filemanager.service;
 
-import io.c0dr.filemanager.controller.amqp.converter.SearchResultConverter;
+import io.c0dr.filemanager.controller.converter.SearchResultConverter;
 import io.c0dr.filemanager.model.SearchResult;
 import io.c0dr.filemanager.repository.FileModelRepository;
 import io.c0dr.filemanager.service.exception.ErrorCode;

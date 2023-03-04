@@ -1,4 +1,4 @@
-package io.c0dr.filemanager.controller.amqp.converter;
+package io.c0dr.filemanager.controller.converter;
 
 import io.c0dr.filemanager.model.FileModel;
 import io.c0dr.filemanager.model.SearchResult;

@@ -70,7 +70,7 @@ file:
   folder-uri: ${HOME}/tmp/final
   url:
     lifetime: 30
-    base:
+    base: 'http://localhost:8081/api/file_manager/download/'
 
 springdoc:
   api-docs:

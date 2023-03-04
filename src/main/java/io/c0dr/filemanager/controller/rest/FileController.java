@@ -1,6 +1,6 @@
 package io.c0dr.filemanager.controller.rest;
 
-import io.c0dr.filemanager.controller.amqp.config.AMQPHeaderNames;
+import io.c0dr.filemanager.controller.rest.config.HeaderNames;
 import io.c0dr.filemanager.model.SearchResult;
 import io.c0dr.filemanager.service.FileReaderService;
 import io.c0dr.filemanager.service.FileSearchService;
@@ -60,7 +60,7 @@ public class FileController {
             @NotNull(message = "error.field.file.null")
             @NotBlank(message = "error.field.file.blank")
             @NotEmpty(message = "error.field.file.empty")
-            @RequestHeader(value = AMQPHeaderNames.MESSAGE_CORRELATION_ID) String pCID) throws MissingEntityException {
+            @RequestHeader(value = HeaderNames.CORRELATION_ID) String pCID) throws MissingEntityException {
         var result = fileSearchService.getFileByIdToPrivate(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
@@ -83,7 +83,7 @@ public class FileController {
             @NotNull(message = "error.field.correlationId.null")
             @NotBlank(message = "error.field.correlationId.blank")
             @NotEmpty(message = "error.field.correlationId.empty")
-            @RequestHeader(value = AMQPHeaderNames.MESSAGE_CORRELATION_ID) String pCID,
+            @RequestHeader(value = HeaderNames.CORRELATION_ID) String pCID,
 
             @RequestParam(required = false, defaultValue = "PT30M")
             @DurationFormat(DurationStyle.SIMPLE)
@@ -93,7 +93,7 @@ public class FileController {
             @NotNull(message = "error.field.user.null")
             @NotBlank(message = "error.field.user.blank")
             @NotEmpty(message = "error.field.user.empty")
-            @RequestHeader(value = AMQPHeaderNames.USER_NAME) String user,
+            @RequestHeader(value = HeaderNames.USER_NAME) String user,
 
             HttpServletRequest request) throws MissingEntityException {
 
@@ -116,7 +116,7 @@ public class FileController {
             @NotNull(message = "error.field.file.null")
             @NotBlank(message = "error.field.file.blank")
             @NotEmpty(message = "error.field.file.empty")
-            @RequestHeader(value = AMQPHeaderNames.MESSAGE_CORRELATION_ID) String pCID
+            @RequestHeader(value = HeaderNames.CORRELATION_ID) String pCID
     ) throws MissingEntityException {
         var result = fileSearchService.getFileByIdToPrivate(id);
 
@@ -139,7 +139,7 @@ public class FileController {
             @NotNull(message = "error.field.correlationId.null")
             @NotBlank(message = "error.field.correlationId.blank")
             @NotEmpty(message = "error.field.correlationId.empty")
-            @RequestHeader(value = AMQPHeaderNames.MESSAGE_CORRELATION_ID) String pCID,
+            @RequestHeader(value = HeaderNames.CORRELATION_ID) String pCID,
 
             @RequestParam(required = false, defaultValue = "PT30M")
             Duration lifeTime
@@ -167,13 +167,13 @@ public class FileController {
             @NotNull(message = "error.field.correlationId.null")
             @NotBlank(message = "error.field.correlationId.blank")
             @NotEmpty(message = "error.field.correlationId.empty")
-            @RequestHeader(value = AMQPHeaderNames.MESSAGE_CORRELATION_ID) String pCID,
+            @RequestHeader(value = HeaderNames.CORRELATION_ID) String pCID,
 
             @Parameter(description = "User")
             @NotNull(message = "error.field.user.null")
             @NotBlank(message = "error.field.user.blank")
             @NotEmpty(message = "error.field.user.empty")
-            @RequestHeader(value = AMQPHeaderNames.USER_NAME) String user,
+            @RequestHeader(value = HeaderNames.USER_NAME) String user,
 
             HttpServletRequest request) throws MissingEntityException {
         UrlFileModel urlFileModel = fileUrlService.getLocation(urlSuffix, user);
